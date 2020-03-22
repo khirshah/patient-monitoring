@@ -4,11 +4,17 @@ var User = require('./user');
 
 // create a new user
 var user = new User({
-  username: 'sevilayha',
+  username: 'testName',
   password: 'password' 
 });
 
-//chris.save();
+user.save(function(err) {
+    if (err) {
+       console.log("error"),err;
+    } else {
+       console.log("saved");
+    }
+});
 
 User.find({}, function(err, users) {
   if (err) throw err;

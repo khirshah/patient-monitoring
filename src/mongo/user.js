@@ -1,4 +1,7 @@
 var db = require('./startmongo');
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 var Schema = db.Schema;
 
@@ -13,16 +16,31 @@ var userSchema = new Schema({
 // on every save, add the date
 userSchema.pre('save', function(next) {
   // get the current date
-  var currentDate = new Date();
+  /*var currentDate = new Date();
 
   // change the updated_at field to current date
   this.updated_at = currentDate;
 
   // if created_at doesn't exist, add to that field
   if (!this.created_at)
-    this.created_at = currentDate;
-
-  next();
+    this.created_at = currentDate;*/
+  // Check if document is new or a new password has been set
+  if (this.isNew || this.isModified('password')) {
+    // Saving reference to this because of changing scopes
+    const document = this;
+    bcrypt.hash(document.password, saltRounds,
+      function(err, hashedPassword) {
+      if (err) {
+        next(err);
+      }
+      else {
+        document.password = hashedPassword;
+        next();
+      }
+    });
+  } else {
+    next();
+  }
 });
 
 // the schema is useless so far
