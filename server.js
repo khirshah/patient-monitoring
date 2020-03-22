@@ -93,6 +93,6 @@ app.post('/authenticate', function(req, res) {
 
 app.get('/checkToken', withAuth, function(req, res) {
   res.sendStatus(200);
-}
+});
 
 app.listen(port, () => console.log(`App is listening on port ${port}`));
