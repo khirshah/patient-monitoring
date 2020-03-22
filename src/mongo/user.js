@@ -35,6 +35,16 @@ userSchema.pre('save', async function(next) {
   }
 });
 
+userSchema.methods.isCorrectPassword = function(password, callback){
+  bcrypt.compare(password, this.password, function(err, same) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(err, same);
+    }
+  });
+}
+
 const encrypt = (passw) => {
   return bcrypt.hash(passw, saltRounds);
 }

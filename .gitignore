@@ -66,3 +66,4 @@ package-lock.json
 /dist
 Procfile
 static.json
+curl.txt
