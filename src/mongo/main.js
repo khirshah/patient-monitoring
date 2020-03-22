@@ -1,27 +1,26 @@
-var db = require('./startmongo');
+const db = require('./startmongo');
 
-var User = require('./user');
+const User = require('./user');
 
-// create a new user
-var user = new User({
-  username: 'testName',
-  password: 'password' 
-});
+const createUSer({username,password}) {
+  const newUser = new User({
+    username: username,
+    password: password 
+  });
+  return newUser;
+}
 
-user.save(function(err) {
-    if (err) {
-       console.log("error"),err;
-    } else {
-       console.log("saved");
-    }
-});
+const saveUser = (user) => {
+  user.save()
+  .then(() => {
+    User.find({}, function(err, users) {
+      if (err) throw err;
+      console.log("Successful save!");
+      // object of all the users
+      console.log(users);
+      db.disconnect();
+    });
+  }); 
+}
 
-User.find({}, function(err, users) {
-  if (err) throw err;
-
-  // object of all the users
-  console.log(users);
-
-  db.disconnect();
-
-});
+export default {createUSer,saveUser};

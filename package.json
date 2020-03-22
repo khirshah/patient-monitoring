@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "devstart": "webpack-dev-server --open",
     "start": "node server.js",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "lint" : "./node_modules/.bin/eslint ./src",
+    "lint-fix": "eslint --fix --ext .js,.jsx ./src"
   },
   "keywords": [],
   "author": "Agnes Meri",
